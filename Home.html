@@ -1,0 +1,887 @@
+<html>
+    <head>
+        <style>
+            html {
+    height:100%;
+    /* max-height: 600px; */
+    max-width:100%;
+    width:100%;
+    background-color: rgb(31, 31, 41);
+    background-image:   
+      url('https://78.media.tumblr.com/cae86e76225a25b17332dfc9cf8b1121/tumblr_p7n8kqHMuD1uy4lhuo1_540.png'), 
+      url('https://78.media.tumblr.com/66445d34fe560351d474af69ef3f2fb0/tumblr_p7n908E1Jb1uy4lhuo1_1280.png'),
+      url('https://78.media.tumblr.com/8cd0a12b7d9d5ba2c7d26f42c25de99f/tumblr_p7n8kqHMuD1uy4lhuo2_1280.png'),
+      url('https://78.media.tumblr.com/5ecb41b654f4e8878f59445b948ede50/tumblr_p7n8on19cV1uy4lhuo1_1280.png'),
+      url('https://78.media.tumblr.com/28bd9a2522fbf8981d680317ccbf4282/tumblr_p7n8kqHMuD1uy4lhuo3_1280.png');
+    background-repeat: repeat-x;
+    background-position: 
+      0 20%,
+      0 100%,
+      0 50%,
+      0 100%,
+      0 0;
+    background-size: 
+      2500px,
+      800px,
+      500px 200px,
+      1000px,
+      400px 260px;
+    animation: 50s para infinite linear;
+    }
+  
+  @keyframes para {
+    100% {
+      background-position: 
+        -5000px 20%,
+        -800px 95%,
+        500px 50%,
+        1000px 100%,
+        400px 0;
+      }
+    }
+    body{
+      
+      height: 100%;
+      margin:0;
+      width:100%;
+      max-width:100%;
+    }
+    .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: beige;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 50px;
+            font-weight: bold;
+            background: linear-gradient(to right, rgb(243, 168, 28), white, rgb(19, 238, 19));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #results {
+            margin-top: 20px;
+    display: grid;
+    grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.result-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: rgba(15, 14, 14, 0.658);
+    cursor: pointer;
+    width: 70%;
+    box-sizing: border-box;
+}
+        .result-item:hover {
+            background-color: rgba(14, 13, 13, 0.733);
+        }
+        strong {
+            color: rgb(255, 102, 0);
+            font-size: large;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Welcome to our tribal website</h1>
+            <p>Based on livelihood,<br> tribes can be categorised as plantation and industrial workers,<br> peasants, shifting cultivators, hunters, food gatherers, and fishermen.<br> However, the dominant classification of tribes in public affairs, politics,<br> and academic sociology is based on the degree of assimilation into Hindu society.</p>
+              <div class="search-bar">
+                <input type="text" id="search-bar" placeholder="🔍Search......." onkeyup="filterData()">
+            </div>
+            <div id="results"></div>
+        </div> 
+            </body>
+            <script>
+              const tribalData = [
+              {
+        continent: "Asia",
+        tribe: "Hmong",
+        language: "Hmong",
+        culture: "Shamanic practices and intricate embroidery.",
+        animals: "Tigers, pandas.",
+        image: "https://wallpapercave.com/wp/wp9992543.jpg"
+    },
+    {
+        continent: "Asia",
+        tribe: "Ainu",
+        language: "Ainu",
+        culture: "Animism and oral traditions.",
+        animals: "Brown bears, salmon.",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4huXU0yLJOX3NPxqpOynOnYXoVgs8VgLQjg&s"
+    },
+    {
+        continent: "Asia",
+        tribe: "Bhils",
+        language: "Bhil",
+        culture: "Tribal art and agricultural festivals.",
+        animals: "Leopards, deer.",
+        image: "https://t3.ftcdn.net/jpg/07/39/66/68/360_F_739666869_vzPFDBC1Je8qE6hcI4qsnpFpk8foNisl.jpg"
+    },
+    {
+        continent: "Asia",
+        tribe: "Gonds",
+        language: "Gondi",
+        culture: "Worship of nature and Gond art.",
+        animals: "Wild boars, snakes.",
+        image: "https://redearth.in/blog/wp-content/uploads/2021/02/iamin-in_.jpg"
+    },
+    {
+        continent: "Asia",
+        tribe: "Kalash",
+        language: "Kalasha",
+        culture: "Unique polytheistic beliefs and vibrant festivals.",
+        animals: "Markhor goats, snow leopards.",
+        image: "https://www.shutterstock.com/shutterstock/videos/3640966907/thumb/1.jpg?ip=x480"
+    },
+          {
+              continent: "Asia",
+              tribe: "Uyghurs",
+              language: "Uyghur",
+              culture: "Rich Islamic heritage and Silk Road trade traditions.",
+              animals: "Camels, wolves.",
+              image:"https://images.squarespace-cdn.com/content/v1/5e352125bf646e003f31a1c6/1594870261373-FZNSAIYPBRHWHV78SE17/uygur+qizi.jpeg"
+          },
+          {
+              continent: "Asia",
+              tribe: "Buryats",
+              language: "Buryat",
+              culture: "Shamanism and nomadic herding.",
+              animals: "Musk deer, elks.",
+              image:"https://www.toursmongolia.com/uploads/travel%20to%20mongolia%20ethnic%20groups.jpg"
+          },
+          {
+              continent: "Asia",
+              tribe: "Kazakhs",
+              language: "Kazakh",
+              culture: "Nomadic lifestyle centered around horses.",
+              animals: "Golden eagles, horses.",
+              image:"https://media.istockphoto.com/id/458338771/photo/mongolian-eagle-hunters-riding-to-the-festival.jpg?s=612x612&w=0&k=20&c=KSDaO9hsFvsNjdCAyiSZ52du6mjRS3v3oMyUScq26lQ="
+          },
+          {
+              continent: "Asia",
+              tribe: "Kurds",
+              language: "Kurdish",
+              culture: "Newroz festival and oral storytelling.",
+              animals: "Sheep, goats.",
+              image:"https://i.pinimg.com/736x/4d/a6/e8/4da6e835242e27d468146c34fd028094.jpg"
+          },
+          {
+              continent: "Asia",
+              tribe: "Mongols",
+              language: "Mongolian",
+              culture: "Nomadism and yurt living.",
+              animals: "Bactrian camels, falcons.",
+              image:"https://media.istockphoto.com/id/1426076655/photo/mongolian-traditional-festival-naadam-mongolian-girl-in-full-dress.jpg?s=612x612&w=0&k=20&c=m_LGc1mbju0E1SfZhiohNkqF6__XCwrxzk996oerAgU="
+          },
+          {
+              continent: "Asia",
+              tribe: "Manchu",
+              language: "Manchu",
+              culture: "Ancestor worship and Qing dynasty heritage.",
+              animals: "Wild geese, cranes.",
+              image:"https://media.istockphoto.com/id/1483630655/photo/women-dressed-in-red-ceremonial-chinese-hanfu-dresses-perform-a-fan-dance.jpg?s=612x612&w=0&k=20&c=LFLvbCEyhjGaTZMe8oB1PQq11WgtLXz9O_NTsgyo46M="
+          },
+          {
+              continent: "Asia",
+              tribe: "Tibetans",
+              language: "Tibetan",
+              culture: "Tibetan Buddhism and traditional Thangka paintings.",
+              animals: "Yaks, snow leopards.",
+              image:"https://media.istockphoto.com/id/458271911/photo/dancers-on-festival-of-ladakh-heritage.jpg?s=612x612&w=0&k=20&c=hC4VKR0jvrCZHHzuNuUj6XCClPH9pXjx_Y9uU289q9c="
+          },
+          {
+              continent: "Asia",
+              tribe: "Yakuts",
+              language: "Sakha",
+              culture: "Reindeer herding and ice festivals.",
+              animals: "Reindeer, Siberian tigers.",
+              image:"https://d2neuv05ura4o9.cloudfront.net/tribes/13/large.5e93455a911245.10194241.jpg"
+          },
+          {
+              continent: "Asia",
+              tribe: "Rohingya",
+              language: "Rohingya",
+              culture: "Folk songs and Islamic traditions.",
+              animals: "Monkeys, river dolphins.",
+              image:"https://cdnuploads.aa.com.tr/uploads/Contents/2018/11/15/thumbs_b_c_92a5db7cb30a24b6ef20f989673ab584.jpg?v=151437"
+          },
+          {
+              continent: "Asia",
+              tribe: "Lisu",
+              language: "Lisu",
+              culture: "Colorful dress and agricultural ceremonies.",
+              animals: "Pangolins, civet cats.",
+              image:"https://media.istockphoto.com/id/1138146045/photo/lisu-hill-tribe-preteen-girl-wears-traditional-tribal-attire-with-black-circular-lisu.jpg?s=612x612&w=0&k=20&c=9jwtjSuuPsZny82x5yKrhYYN8Vg9I5hDalK9bm0RTuA="
+          },
+                 {
+              continent: "Africa",
+              tribe: "Maasai",
+              language: "Maa",
+              culture: "Beadwork and warrior traditions.",
+              animals: "Lions, elephants.",
+              image:"https://www.shutterstock.com/shutterstock/videos/1108157527/thumb/1.jpg?ip=x480"
+          },
+          {
+              continent: "Africa",
+              tribe: "Zulu",
+              language: "Zulu",
+              culture: "Colorful beadwork and traditional dances.",
+              animals: "Cattle, rhinoceros.",
+              image:"https://media.gettyimages.com/id/608-164/video/wide-shot-black-zulu-men-in-costumes-doing-native-dance-outdoors-durban-kwazulu-natal-south.jpg?s=640x640&k=20&c=S3D7T-FcBPwUfvXya8Orr1kL88mUxqavfEdNVmmCXXA="
+          },
+          {
+              continent: "Africa",
+              tribe: "San",
+              language: "Khoisan",
+              culture: "Rock art and hunting traditions.",
+              animals: "Springboks, antelopes.",
+              image:"https://media.istockphoto.com/id/819696398/photo/san.jpg?s=612x612&w=0&k=20&c=sfo5ZUrpca5M2-IE5SorFxiQWUSOk3bE-Og2dCznqKc="
+          },
+          {
+              continent: "Africa",
+              tribe: "Himba",
+              language: "Otjihimba",
+              culture: "Red ochre body paint and cattle rearing.",
+              animals: "Cattle, goats.",
+              image:"https://t4.ftcdn.net/jpg/04/65/01/27/360_F_465012754_ZtvGA8i27nuo56AXZ6pRe3RnV458pQrT.jpg"
+          },
+          {
+              continent: "Africa",
+              tribe: "Dogon",
+              language: "Dogon",
+              culture: "Astronomical knowledge and mask dances.",
+              animals: "Foxes, snakes.",
+              image:"https://media.istockphoto.com/id/157180908/photo/dogon-masked-dancers-three-human-masks.jpg?s=612x612&w=0&k=20&c=ouTJ6iFFN8cU2lUBMXKjEGiykECNk8fMoECf5U1Rou4="
+          },
+          {
+              continent: "Africa",
+              tribe: "Berbers",
+              language: "Tamazight",
+              culture: "Nomadic lifestyles and rug weaving.",
+              animals: "Camels, sheep.",
+              image:"https://qph.cf2.quoracdn.net/main-qimg-285995f9ae0fa4d08bedb1d52c85087f-lq"
+          },
+          {
+              continent: "Africa",
+              tribe: "Xhosa",
+              language: "Xhosa",
+              culture: "Rites of passage and oral storytelling.",
+              animals: "Cattle, ostriches.",
+              image:"https://t4.ftcdn.net/jpg/11/21/34/39/360_F_1121343936_Fht99gRzOlBowwsYElbolLtR9D4pFYAJ.jpg"
+          },
+          {
+              continent: "Africa",
+              tribe: "Tuareg",
+              language: "Tamasheq",
+              culture: "Desert navigation and silverwork.",
+              animals: "Camels, goats.",
+              image:"https://qph.cf2.quoracdn.net/main-qimg-903ef49ac44d9f49cac8ab25976e1e6d-lq"
+          },
+          {
+              continent: "Africa",
+              tribe: "Akan",
+              language: "Twi",
+              culture: "Goldsmithing and storytelling traditions.",
+              animals: "Monkeys, forest elephants.",
+              image:"https://thumbs.dreamstime.com/b/festival-traditional-dances-lagoon-akan-people-ivory-coast-each-year-organizes-annual-festivities-generations-76561683.jpg"
+          },
+          {
+              continent: "Africa",
+              tribe: "Igbo",
+              language: "Igbo",
+              culture: "Yam festivals and rich music traditions.",
+              animals: "Crocodiles, snakes.",
+              image:"https://img.freepik.com/free-photo/people-wearing-rich-costumes-carnival_23-2151913486.jpg"
+          },
+          {
+              continent: "Africa",
+              tribe: "Ashanti",
+              language: "Akan",
+              culture: "Kente weaving and gold jewelry.",
+              animals: "Elephants, parrots.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdj9OBLdJGc3GjUEQ7GRP5b4I-5-WMJkpMVA&s"
+          },
+          {
+              continent: "Africa",
+              tribe: "Fula",
+              language: "Fula",
+              culture: "Nomadic herding and traditional songs.",
+              animals: "Cattle, sheep.",
+              image:"https://media.istockphoto.com/id/532020607/photo/fulani-women-gambia.jpg?s=612x612&w=0&k=20&c=IJMFzyxT6aa6_0iBRL2pdty9ndGxPWnRvwJZZ3GIkEI="
+          },
+          {
+              continent: "Africa",
+              tribe: "Shona",
+              language: "Shona",
+              culture: "Stone sculptures and mbira music.",
+              animals: "Leopards, baboons.",
+              image:"https://www.nomadafricamag.com/wp-content/uploads/2020/11/Shona-Culture.jpg"
+          },
+          {
+              continent: "Africa",
+              tribe: "Amhara",
+              language: "Amharic",
+              culture: "Coffee ceremonies and Orthodox Christianity.",
+              animals: "Ethiopian wolves, ibex.",
+              image:"https://img.freepik.com/free-photo/portrait-photorealistic-rastafari-woman-with-african-dreads_23-2151516444.jpg"
+          },
+          {
+              continent: "Africa",
+              tribe: "Hadza",
+              language: "Hadza",
+              culture: "Hunter-gatherer traditions.",
+              animals: "Giraffes, zebras.",
+              image:"https://www.shutterstock.com/shutterstock/videos/1049921176/thumb/1.jpg?ip=x480"
+          },
+                 {
+              continent: "North America",
+              tribe: "Navajo",
+              language: "Navajo",
+              culture: "Sand painting and weaving.",
+              animals: "Bison, deer.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvVlXgeTQJFhZbS4h6wL08w_3Sp0paTAbJfg&s"
+          },
+          {
+              continent: "North America",
+              tribe: "Cherokee",
+              language: "Cherokee",
+              culture: "Storytelling and basket weaving.",
+              animals: "Black bears, turkeys.",
+              image:"https://png.pngtree.com/background/20230610/original/pngtree-native-american-men-are-standing-in-a-line-picture-image_3053795.jpg"
+          },
+          {
+              continent: "North America",
+              tribe: "Sioux",
+              language: "Dakota, Lakota, Nakota",
+              culture: "Tipi living and powwow dances.",
+              animals: "Bison, wolves.",
+              image:"https://media.istockphoto.com/id/1743123179/photo/chumash-day-pow-wow-and-inter-tribal-gathering-the-malibu-bluffs-park-is-celebrating-23-years.jpg?s=612x612&w=0&k=20&c=XzoZcraybitRuHWOJcf1-rQ8G8crG_5fUbeKwAGMfG0="
+          },
+          {
+              continent: "North America",
+              tribe: "Apache",
+              language: "Apache",
+              culture: "Hunter-gatherer traditions and beadwork.",
+              animals: "Coyotes, mountain lions.",
+              image:"https://img.freepik.com/premium-photo/close-up-woman-beauty-apache-native-indian-american-tribe-model-background-wallpaper-ai-generated-image_1087980-4876.jpg"
+          },
+          {
+              continent: "North America",
+              tribe: "Iroquois",
+              language: "Iroquoian",
+              culture: "Longhouse living and council governance.",
+              animals: "Beavers, deer.",
+              image:"https://media.istockphoto.com/id/532855742/vector/american-native.jpg?s=612x612&w=0&k=20&c=1YPNCJoMY-FqWAjbgel8HOmYcUYc01fIWZAKLRnrVZ0="
+          },
+          {
+              continent: "North America",
+              tribe: "Blackfoot",
+              language: "Blackfoot",
+              culture: "Buffalo hunting and spiritual ceremonies.",
+              animals: "Buffalo, eagles.",
+              image:"https://t3.ftcdn.net/jpg/06/65/56/74/360_F_665567439_zNgaLbj58SiJvk7vKriClrMz6VF05Iv2.jpg"
+          },
+          {
+              continent: "North America",
+              tribe: "Inuit",
+              language: "Inuktitut",
+              culture: "Igloo building and throat singing.",
+              animals: "Seals, polar bears.",
+              image:"https://study.com/cimages/multimages/16/enfants_inuits_19255670869088456917212.jpg"
+          },
+          {
+              continent: "North America",
+              tribe: "Haida",
+              language: "Haida",
+              culture: "Totem carving and fishing traditions.",
+              animals: "Salmon, ravens.",
+              image:"https://northwesternclassproject.weebly.com/uploads/4/9/8/3/49834347/5023233.jpg?338"
+          },
+          {
+              continent: "North America",
+              tribe: "Mohawk",
+              language: "Mohawk",
+              culture: "Basket weaving and farming.",
+              animals: "Raccoons, otters.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI5ePXkA6Y9OwyA8nl3YZdzUvDi8xbBS-d-A&s"
+          },
+          {
+              continent: "North America",
+              tribe: "Choctaw",
+              language: "Choctaw",
+              culture: "Stickball games and music.",
+              animals: "Deer, squirrels.",
+              image:"https://study.com/cimages/multimages/16/choctaw_ball_players3802749036469516741.jpg"
+          },
+          {
+              continent: "North America",
+              tribe: "Comanche",
+              language: "Comanche",
+              culture: "Horsemanship and warrior traditions.",
+              animals: "Horses, prairie dogs.",
+              image:"https://t3.ftcdn.net/jpg/07/28/07/20/360_F_728072006_vckyVohTunsFCokLMaa0ZxeVWjIlhCPH.jpg"
+          },
+          {
+              continent: "North America",
+              tribe: "Ojibwe",
+              language: "Ojibwe",
+              culture: "Birchbark canoes and beadwork.",
+              animals: "Moose, otters.",
+              image:"https://t4.ftcdn.net/jpg/08/40/29/49/360_F_840294949_q7IU5u1vbC824takUmvCAEKRgpGvAWES.jpg"
+          },
+          {
+              continent: "North America",
+              tribe: "Zuni",
+              language: "Zuni",
+              culture: "Pueblo living and intricate pottery.",
+              animals: "Lizards, eagles.",
+              image:"https://media.istockphoto.com/id/1059785418/photo/indigenous-peoples-day.jpg?s=612x612&w=0&k=20&c=1IBAcCnHJSLfG1TR5Fx8SJqFOMIwSo2RvmgsFESssjc="
+          },
+          {
+              continent: "North America",
+              tribe: "Cree",
+              language: "Cree",
+              culture: "Hunting and traditional storytelling.",
+              animals: "Caribou, musk oxen.",
+              image:"https://media.gettyimages.com/id/1529122655/video/enoch-cree-nation-canada-women-wear-colorful-traditional-costumes-called-regalia-during-the.jpg?s=640x640&k=20&c=Oa3JIuPqoS4UfhvRQpsIpcV7TyhUE4YugBbJJTexbKM="
+          },
+          {
+              continent: "North America",
+              tribe: "Seminole",
+              language: "Muskogean",
+              culture: "Patchwork clothing and alligator wrestling.",
+              animals: "Alligators, panthers.",
+              image:"https://media.gettyimages.com/id/1529122655/video/enoch-cree-nation-canada-women-wear-colorful-traditional-costumes-called-regalia-during-the.jpg?s=640x640&k=20&c=Oa3JIuPqoS4UfhvRQpsIpcV7TyhUE4YugBbJJTexbKM="
+          },
+                   {
+              continent: "South America",
+              tribe: "Yanomami",
+              language: "Yanomami",
+              culture: "Shamanic rituals and forest-based traditions.",
+              animals: "Jaguars, macaws.",
+              image:"https://i.ytimg.com/vi/7Vjgl7qWzNg/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAzlkynYVrilWxS6ukaq6Wqr8AEVQ"
+          },
+          {
+              continent: "South America",
+              tribe: "Guarani",
+              language: "Guarani",
+              culture: "Agriculture, spiritual songs, and myths.",
+              animals: "Capybaras, toucans.",
+              image:"https://t4.ftcdn.net/jpg/06/02/17/93/360_F_602179323_TdB9oFzuYBGrKue743PVBie23VnjS6pM.jpg"
+          },
+          {
+              continent: "South America",
+              tribe: "Quechua",
+              language: "Quechua",
+              culture: "Weaving, agriculture, and Inca heritage.",
+              animals: "Llamas, alpacas.",
+              image:"https://media.istockphoto.com/id/1221707925/photo/quechua-people-peru.jpg?s=612x612&w=0&k=20&c=A36ok_j9cZf3Tya5bCAZi8e1273ZuMtP58FfJdUH6xA="
+          },
+          {
+              continent: "South America",
+              tribe: "Aymara",
+              language: "Aymara",
+              culture: "Andean festivals and traditional farming.",
+              animals: "Condors, vicuñas.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdqIFQKqh3ed2A97JrKdEuPHlloMdxCErtbg&s"
+          },
+          {
+              continent: "South America",
+              tribe: "Shipibo",
+              language: "Shipibo-Conibo",
+              culture: "Psychedelic art and ayahuasca ceremonies.",
+              animals: "Anacondas, parrots.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfu4YDUcBsKuR4638N0mKSd_3nDutZDFK8xw&s"
+          },
+          {
+              continent: "South America",
+              tribe: "Mapuche",
+              language: "Mapudungun",
+              culture: "Ritual dances and medicinal herb usage.",
+              animals: "Pumas, woodpeckers.",
+              image:"https://media.istockphoto.com/id/458713257/photo/machi-mapuche.jpg?s=612x612&w=0&k=20&c=oRZwyFI429xPLOdbIBApssjPO5cpTNaM_8L44ebmdDo="
+          },
+          {
+              continent: "South America",
+              tribe: "Tupi",
+              language: "Tupi",
+              culture: "Tattooing and forest survival techniques.",
+              animals: "Tapirs, jaguars.",
+              image:"https://media.istockphoto.com/id/1707039463/photo/native-amazon-indigenous-people-performing-ritual-dance.jpg?s=612x612&w=0&k=20&c=jFrMrBI5gYpxSxPQVGX3euYFGX1Lg3luvKpi1BKjT5A="
+          },
+          {
+              continent: "South America",
+              tribe: "Wayuu",
+              language: "Wayuu",
+              culture: "Weaving and matriarchal social structure.",
+              animals: "Goats, iguanas.",
+              image:"https://mochila.au/cdn/shop/articles/marriage-customs-wayuu-blog-expotur.jpg?v=1694241382"
+          },
+          {
+              continent: "South America",
+              tribe: "Asháninka",
+              language: "Asháninka",
+              culture: "Bark clothing and forest agriculture.",
+              animals: "Sloths, toucans.",
+              image:"https://assets.survivalinternational.org/pictures/1780/18-mga-10022992_1800.jpg"
+          },
+          {
+              continent: "South America",
+              tribe: "Yekuana",
+              language: "Yekuana",
+              culture: "Basketry and riverine lifestyle.",
+              animals: "River dolphins, monkeys.",
+              image:"https://i.pinimg.com/originals/4b/b3/0c/4bb30c4542d92ec59c5b20fe85c210f7.jpg"
+          },
+          {
+              continent: "South America",
+              tribe: "Kaingang",
+              language: "Kaingang",
+              culture: "Seasonal festivals and oral traditions.",
+              animals: "Anteaters, capuchin monkeys.",
+              image:"https://media.istockphoto.com/id/477568090/photo/brazilian-indian-kaingang-06.jpg?s=170667a&w=0&k=20&c=UEtN-X2Ci6kjQx6t09AKRdrcRkEbuorfQPyRaq8JlbY="
+          },
+          {
+              continent: "South America",
+              tribe: "Warao",
+              language: "Warao",
+              culture: "Stilt houses and canoe-making.",
+              animals: "Caimans, manatees.",
+              image:"https://readingthecaribbean.wordpress.com/wp-content/uploads/2015/02/10984557_443793525772219_4284325363764829894_o.jpg"
+          },
+          {
+              continent: "South America",
+              tribe: "Cofan",
+              language: "A’ingae",
+              culture: "Knowledge of medicinal plants and shamanism.",
+              animals: "Harpy eagles, poison dart frogs.",
+              image:"https://media.istockphoto.com/id/1679386605/photo/portrait-of-indian-mother-and-daughter-in-the-forest.jpg?s=612x612&w=0&k=20&c=vQ2CzK1r5-7KsqRkoSlRIUDLMv9UJtkx7IFYvIfFY6g="
+          },
+          {
+              continent: "South America",
+              tribe: "Makushi",
+              language: "Makushi",
+              culture: "Cassava farming and waterhole festivals.",
+              animals: "Armadillos, otters.",
+              image:"https://c1.wallpaperflare.com/preview/127/933/73/maasai-tribe-kenya-sky-clouds.jpg"
+          },
+          {
+              continent: "South America",
+              tribe: "Pemon",
+              language: "Pemon",
+              culture: "Traditional hammock weaving and myths.",
+              animals: "Howler monkeys, ocelots.",
+              image:"https://www.angel-conservation.org/wp-content/uploads/2020/02/Pemon-Kids-S.jpg"
+          },
+                   {
+              continent: "Europe",
+              tribe: "Sami",
+              language: "Sami",
+              culture: "Reindeer herding and joik singing.",
+              animals: "Reindeer, arctic foxes.",
+              image:"https://media.gettyimages.com/id/565-118/video/1950s-lapp-family-in-native-clothing-stand-outside-of-tent-woman-rubbing-animal-skin-lapland.jpg?s=640x640&k=20&c=IcI8tfLXNctoNNYlMtRofeaVT79IKQ7xtpSJ03Hk7pc="
+          },
+          {
+              continent: "Europe",
+              tribe: "Basques",
+              language: "Basque",
+              culture: "Unique festivals and ancient traditions.",
+              animals: "Pyrenean ibex, wild boars.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg4qGjLtWyVRgv1l0JKnnJhYvAaE6x74wxew&s"
+          },
+          {
+              continent: "Europe",
+              tribe: "Scots Gaelic",
+              language: "Scottish Gaelic",
+              culture: "Highland games and clan traditions.",
+              animals: "Red deer, highland cattle.",
+              image:"https://i.pinimg.com/236x/2f/c2/f3/2fc2f3e61b70f4b4a3cbbc2cd8296b28.jpg"
+          },
+          {
+              continent: "Europe",
+              tribe: "Irish Gaels",
+              language: "Irish Gaelic",
+              culture: "Celtic myths and traditional music.",
+              animals: "Salmon, hares.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStB9DqmJOOljVt98cJj6tXasCALfjgCv4qxg&s"
+          },
+          {
+              continent: "Europe",
+              tribe: "Roma",
+              language: "Romani",
+              culture: "Nomadic lifestyle and vibrant music.",
+              animals: "Horses, dogs.",
+              image:"https://media.istockphoto.com/id/181891488/photo/group-of-running-happy-indian-children-desert-village-india.jpg?s=612x612&w=0&k=20&c=Ynpx7RaghSfyZVug80jBa4rbo6Pn9TjI8ntvYSOdhGM="
+          },
+          {
+              continent: "Europe",
+              tribe: "Lapps",
+              language: "Sami",
+              culture: "Snowshoe crafting and winter survival.",
+              animals: "Moose, lynx.",
+              image:"https://media.istockphoto.com/id/1058940860/photo/man-in-tradidional-saami-costume-and-the-reindeer.jpg?s=612x612&w=0&k=20&c=KHFx7ZoLwmXf5fcj8NHvlArSglRbCnB2gFPBRqt3CWs="
+          },
+          {
+              continent: "Europe",
+              tribe: "Slavs",
+              language: "Slavic languages",
+              culture: "Folklore, dance, and intricate embroidery.",
+              animals: "Wolves, bears.",
+              image:"https://www.shutterstock.com/shutterstock/videos/1096787157/thumb/1.jpg?ip=x480"
+          },
+          {
+              continent: "Europe",
+              tribe: "Vikings",
+              language: "Old Norse",
+              culture: "Shipbuilding and Norse mythology.",
+              animals: "Seals, whales.",
+              image:"https://c4.wallpaperflare.com/wallpaper/405/51/832/vikings-tv-series-ragnar-lodbrok-tv-wallpaper-preview.jpg"
+          },
+          {
+              continent: "Europe",
+              tribe: "Tatars",
+              language: "Tatar",
+              culture: "Islamic traditions and unique cuisine.",
+              animals: "Hawks, sheep.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7RwaSiNgEd03s_KvgAedQT6z9_2GouLv5RA&s"
+          },
+          {
+              continent: "Europe",
+              tribe: "Frisians",
+              language: "Frisian",
+              culture: "Farming and unique coastal festivals.",
+              animals: "Sea birds, sheep.",
+              image:"https://c1.wallpaperflare.com/preview/712/862/344/west-frisian-market-schagen-parade-folklore.jpg"
+          },
+          {
+              continent: "Europe",
+              tribe: "Celts",
+              language: "Celtic languages",
+              culture: "Oral traditions and druidic practices.",
+              animals: "Ravens, wolves.",
+              image:"https://i.ytimg.com/vi/eH_upDKPV5Y/maxresdefault.jpg"
+          },
+          {
+              continent: "Europe",
+              tribe: "Gagauz",
+              language: "Gagauz",
+              culture: "Orthodox Christianity and folk dancing.",
+              animals: "Cattle, storks.",
+              image:"https://img.freepik.com/premium-photo/indian-from-pataxa-tribe-with-feather-headdress-looking-right-indigenous-from-brazil-with-traditional-facial-paintings_63135-1352.jpg"
+          },
+          {
+              continent: "Europe",
+              tribe: "Albanians",
+              language: "Albanian",
+              culture: "Hospitality and traditional dress.",
+              animals: "Eagles, goats.",
+              image:"https://i.ytimg.com/vi/Y_Od1T_Glgo/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCZBzAa4dfxc87iILQTPjXWqwCFXw"
+          },
+          {
+              continent: "Europe",
+              tribe: "Sardinians",
+              language: "Sardinian",
+              culture: "Shepherding and unique folk songs.",
+              animals: "Sheep, mouflons.",
+              image:"https://media.istockphoto.com/id/984722054/photo/colorful-girls-traditional-colorful-sardinian-dresses.jpg?s=612x612&w=0&k=20&c=kxHQ31E9WMWj6eyx_q1vpaPI5VZD-I3X-lfQ5ZKX8yA="
+          },
+          {
+              continent: "Europe",
+              tribe: "Pomaks",
+              language: "Bulgarian",
+              culture: "Mountain farming and folklore.",
+              animals: "Brown bears, mountain goats.",
+              image:"https://thumbs.dreamstime.com/b/pomak-traditional-costume-gradeznitsa-bulgaria-vardim-svistov-teteven-woman-wears-shalvari-trousers-embroidered-shirt-vest-331615286.jpg"
+          },
+                  {
+              continent: "Australia",
+              tribe: "Aboriginal Australians",
+              language: "Pitjantjatjara",
+              culture: "Dreamtime stories and rock art.",
+              animals: "Kangaroos, emus.",
+              image:"https://media.istockphoto.com/id/499182088/photo/indigenous-dancers-at-homeground-indigenous-festival-in-sydney.jpg?s=612x612&w=0&k=20&c=xGF4UomnAMNS0x8PNKP1wAclGpvxK4WaAd_knFJe3Pw="
+          },
+          {
+              continent: "Australia",
+              tribe: "Maori",
+              language: "Te Reo Maori",
+              culture: "Haka dances and wood carving.",
+              animals: "Kiwi birds, moa (extinct).",
+              image:"https://t4.ftcdn.net/jpg/05/75/32/61/360_F_575326173_4IsFE94g2eRInmVoKv88FoUlchSwhXeX.jpg"
+          },
+          {
+              continent: "Australia",
+              tribe: "Torres Strait Islanders",
+              language: "Kala Lagaw Ya",
+              culture: "Sea navigation and dance rituals.",
+              animals: "Dugongs, sea turtles.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6TWLupKXe1UvQnO5klm0EwBYTW2tSv2FnJg&s"
+          },
+          {
+              continent: "Australia",
+              tribe: "Samoans",
+              language: "Samoan",
+              culture: "Tattooing and fale (open house) living.",
+              animals: "Fruit bats, pigs.",
+              image:"https://img.freepik.com/premium-photo/samoan-men-cultural-dress-standing-tropical-environment-proudly-showcasing-their-traditions_1300330-2310.jpg?semt=ais_hybrid"
+          },
+          {
+              continent: "Australia",
+              tribe: "Huli",
+              language: "Huli",
+              culture: "Wig-making and elaborate face painting.",
+              animals: "Cassowaries, tree kangaroos.",
+              image:"https://img.freepik.com/premium-photo/huli-papua-new-guinea-huli-are-one-most-famous-tribes-papua-new-guinea-island-oceania-that-is-home-hundreds-unique-traditional-tribes_73899-10038.jpg"
+          },
+          {
+              continent: "Australia",
+              tribe: "Papuan",
+              language: "Tok Pisin",
+              culture: "Spirit houses and tribal dances.",
+              animals: "Birds of paradise, crocodiles.",
+              image:"https://media.istockphoto.com/id/2169717758/photo/papuan-tribal-dance-at-sing-sing-festival-in-mount-hagen-papua-new-guinea.jpg?s=612x612&w=0&k=20&c=jl_aFIfYJVxS10Ejb_6Gk-t9I1wzkZEIm8gdlhyJhWo="
+          },
+          {
+              continent: "Australia",
+              tribe: "Kanak",
+              language: "Paicî",
+              culture: "Yam cultivation and wooden sculpture.",
+              animals: "Flying foxes, geckos.",
+              image:"https://media.istockphoto.com/id/508140923/photo/welcoming-party.jpg?s=612x612&w=0&k=20&c=r2VbqjEq0-Zirok7FYrA_SdU53AU2x1S2UCwsavvR-M="
+          },
+          {
+              continent: "Australia",
+              tribe: "Fijians",
+              language: "Fijian",
+              culture: "Kava ceremonies and meke dances.",
+              animals: "Sea snakes, iguanas.",
+              image:"https://media.istockphoto.com/id/660633790/photo/indigenous-fijian-people-sing-and-dance-in-fiji.jpg?s=612x612&w=0&k=20&c=IXMIQgIXDQ4L43_hi3ikfImFPca_wR4ue9-LSVpgEA0="
+          },
+          {
+              continent: "Australia",
+              tribe: "Palauans",
+              language: "Palauan",
+              culture: "Storyboards and matrilineal traditions.",
+              animals: "Dugongs, parrotfish.",
+              image:"https://st5.depositphotos.com/29633910/66943/i/450/depositphotos_669436442-stock-photo-porto-seguro-bahia-brazil-august.jpg"
+          },
+          {
+              continent: "Australia",
+              tribe: "Chamorro",
+              language: "Chamorro",
+              culture: "Latte stone structures and oral epics.",
+              animals: "Monitor lizards, coconut crabs.",
+              image:"https://res.cloudinary.com/simpleview/image/upload/v1545880710/clients/guam/vol_family_d8178d04-abb4-4f12-8ac4-9f1e9765f969.jpg"
+          },
+          {
+              continent: "Australia",
+              tribe: "Ni-Vanuatu",
+              language: "Bislama",
+              culture: "Land diving and sand drawings.",
+              animals: "Flying foxes, reef sharks.",
+              image:"https://media.istockphoto.com/id/1294377073/photo/islanders-with-spears-having-fun-during-a-ceremonial-dance-for-specal-holiday-on-vanuatu.jpg?s=612x612&w=0&k=20&c=xquYVzHjQqlWGJCiTzCUDkS1xYTFsE_skmGAMIymcPI="
+          },
+          {
+              continent: "Australia",
+              tribe: "Hawaiians",
+              language: "Hawaiian",
+              culture: "Hula dances and lei-making.",
+              animals: "Humpback whales, green sea turtles.",
+              image:"https://www.shutterstock.com/shutterstock/videos/22489462/thumb/1.jpg?ip=x480"
+          },
+          {
+              continent: "Australia",
+              tribe: "Rotumans",
+              language: "Rotuman",
+              culture: "Ceremonial feasts and dance.",
+              animals: "Sea turtles, fruit bats.",
+              image:"https://images.pexels.com/photos/2016121/pexels-photo-2016121.jpeg?cs=srgb&dl=pexels-faris-munandar-1044415-2016121.jpg&fm=jpg"
+          },
+          {
+              continent: "Australia",
+              tribe: "Trobrianders",
+              language: "Kilivila",
+              culture: "Yam festivals and kula trade.",
+              animals: "Crabs, pigeons.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwYmscNY66Pk5IEOyF_Qcg6_YE5dkSs1MXWA&s"
+          },
+          {
+              continent: "Australia",
+              tribe: "Marshallese",
+              language: "Marshallese",
+              culture: "Stick charts and outrigger canoes.",
+              animals: "Sharks, frigatebirds.",
+              image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfLqAP300PNiHKeeJZXSGMtMT1K_KN0GJZRw&s"
+          }
+            
+        ];
+        function filterData() {
+            const query = document.getElementById('search-bar').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (!query) {
+                resultsDiv.style.display = "none";
+                return;
+            }
+
+            const filteredData = tribalData.filter(item =>
+                item.tribe.toLowerCase().includes(query) ||
+                item.continent.toLowerCase().includes(query) ||
+                item.language.toLowerCase().includes(query) ||
+                item.culture.toLowerCase().includes(query) ||
+                item.animals.toLowerCase().includes(query)
+            );
+
+            if (filteredData.length === 0) {
+                resultsDiv.innerHTML = '<div class="result-item">No results found.</div>';
+            } else {
+                filteredData.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.innerHTML = `
+                    <img src="${item.image}" alt="${item.tribe}" style="width:100%; max-width:350px; border-radius:10px; margin-bottom:20px; height:150px">
+                        <strong>Continent:</strong> ${item.continent} <br>
+                        <strong>Tribe:</strong> ${item.tribe} <br>
+                        <strong>Language:</strong> ${item.language} <br>
+                        <strong>Culture:</strong> ${item.culture} <br>
+                        <strong>Animals:</strong> ${item.animals}
+                    `;
+                    div.onclick = () => {
+                        document.getElementById('search-bar').value = item.continent;
+                        resultsDiv.style.display = "none";
+                    };
+                    resultsDiv.appendChild(div);
+                });
+            }
+
+            resultsDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>
